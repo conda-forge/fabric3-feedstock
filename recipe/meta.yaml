@@ -16,7 +16,7 @@ build:
   noarch: python
   entry_points:
     - fab = fabric.main:main
-  number: 0
+  number: 1
   script: python -m pip install --no-deps --ignore-installed .
 
 requirements:
