@@ -1,7 +1,6 @@
 {% set name = "Fabric3" %}
 {% set version = "1.14.post1" %}
 {% set bundle = "tar.gz" %}
-{% set hash_type = "sha256" %}
 {% set hash_val = "647e485ec83f30b587862f92374d6affc217f3d79819d1d7f512e42e7ae51e81" %}
 
 package:
@@ -11,25 +10,27 @@ package:
 source:
   fn: {{ name }}-{{ version }}.{{ bundle }}
   url: https://pypi.org/packages/source/{{ name[0] }}/{{ name }}/{{ name }}-{{ version }}.{{ bundle }}
-  {{ hash_type }}: {{ hash_val }}
+  sha256: {{ hash_val }}
 build:
   noarch: python
   entry_points:
     - fab = fabric.main:main
-  number: 0
-  script: python -m pip install --no-deps --ignore-installed .
+  number: 1
+  script: {{ PYTHON }} -m pip install . --no-deps -vv
 
 requirements:
-  build:
-    - python
+  host:
+    - python {{ python_min }}
     - pip
 
   run:
-    - python
+    - python >={{ python_min }}
     - paramiko >=2.0,<3.0
     - six >=1.10.0
 
 test:
+  requires:
+    - python {{ python_min }}
   imports:
     - fabric
     - fabric.contrib
